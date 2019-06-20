@@ -23,7 +23,7 @@ resource "aws_config_delivery_channel" "config" {
   name           = "awl-config"
   s3_bucket_name = "awl-config"
   s3_key_prefix  = "${var.bucket_key_prefix}"
-  sns_topic_arn  = "${var.sns_topic_arn}"
+  /*sns_topic_arn  = "${var.sns_topic_arn}"*/
 
   snapshot_delivery_properties {
     delivery_frequency = "Three_Hours"
