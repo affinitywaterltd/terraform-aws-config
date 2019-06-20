@@ -1,5 +1,5 @@
 output "bucket_arn" {
-  value = "ARN: arn:aws:s3:::awl-config"
+  value = "arn:aws:s3:::awl-config"
 }
 
 /*

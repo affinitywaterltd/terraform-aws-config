@@ -11,7 +11,7 @@ provider "aws" {
 
 resource "aws_config_configuration_recorder" "config" {
   name     = "awl-config"
-  role_arn = "ARN: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/awl-config"
+  role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/awl-config"
 
   recording_group {
     all_supported                 = true
