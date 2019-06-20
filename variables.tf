@@ -5,11 +5,19 @@ variable "bucket_prefix" {
 }
 
 variable "bucket_key_prefix" {
+  default = "config"
+}
+
+variable "bucket_name" {
+  default = "awl-config"
+}
+
+variable "config_name" {
   default = "awl-config"
 }
 
 variable "sns_topic_arn" {
-  default = "arn:aws:sns:eu-west-2:889199313043:security-alerts-topic"
+  default = ""
 }
 
 variable "tags" {
