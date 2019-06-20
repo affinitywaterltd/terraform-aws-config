@@ -1,7 +1,8 @@
+/*
 variable "aws_account_id" {}
 variable "aws_profile" {}
 variable "aws_region" {}
-
+*/
 variable "bucket_prefix" {
   default = "awl-config"
 }

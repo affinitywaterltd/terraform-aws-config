@@ -1,5 +1,5 @@
 output "bucket_arn" {
-  value = "${aws_s3_bucket.config.arn}"
+  value = "ARN: arn:aws:s3:::awl-config"
 }
 
 output "recorder_id" {
