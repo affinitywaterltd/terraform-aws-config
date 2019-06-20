@@ -33,7 +33,7 @@ resource "aws_config_delivery_channel" "config" {
 }
 
 resource "aws_config_configuration_recorder_status" "config" {
-  name       = "${aws_config_configuration_recorder.config.name}"
+  name       = "awl-config"
   is_enabled = true
 
   depends_on = ["aws_config_delivery_channel.config"]
