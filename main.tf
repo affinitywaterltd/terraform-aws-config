@@ -1,10 +1,3 @@
-/*
-provider "aws" {
-  region  = "${var.aws_region}"
-  profile = "${var.aws_profile}"
-}
-*/
-
 # -----------------------------------------------------------
 # set up the  Config Recorder
 # -----------------------------------------------------------
@@ -15,15 +8,15 @@ resource "aws_config_configuration_recorder" "config" {
 
   recording_group {
     all_supported                 = true
-    include_global_resource_types = true
+    include_global_resource_types = false
   }
 }
 
 resource "aws_config_delivery_channel" "config" {
   name           = "awl-config"
   s3_bucket_name = "awl-config"
-  s3_key_prefix  = "${var.bucket_key_prefix}"
-  /*sns_topic_arn  = "${var.sns_topic_arn}"*/
+  /*s3_key_prefix  = "${var.bucket_key_prefix}"
+  sns_topic_arn  = "${var.sns_topic_arn}"*/
 
   snapshot_delivery_properties {
     delivery_frequency = "Three_Hours"
