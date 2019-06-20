@@ -10,7 +10,7 @@ provider "aws" {
 
 resource "aws_config_configuration_recorder" "config" {
   name     = "awl-config"
-  role_arn = "${aws_iam_role.config.arn}"
+  role_arn = "ARN: arn:aws:s3:::awl-config"
 
   recording_group {
     all_supported                 = true
@@ -20,7 +20,7 @@ resource "aws_config_configuration_recorder" "config" {
 
 resource "aws_config_delivery_channel" "config" {
   name           = "awl-config"
-  s3_bucket_name = "${aws_s3_bucket.config.bucket}"
+  s3_bucket_name = "awl-config"
   s3_key_prefix  = "${var.bucket_key_prefix}"
   sns_topic_arn  = "${var.sns_topic_arn}"
 
