@@ -154,9 +154,9 @@ resource "aws_config_config_rule" "iam_password_policy" {
   "RequireLowercaseCharacters" : "true",
   "RequireSymbols" : "true",
   "RequireNumbers" : "true",
-  "MinimumPasswordLength" : "16",
+  "MinimumPasswordLength" : "8",
   "PasswordReusePrevention" : "12",
-  "MaxPasswordAge" : "30"
+  "MaxPasswordAge" : "60"
 }
 EOF
 
