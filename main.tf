@@ -1,9 +1,9 @@
 # -----------------------------------------------------------
-# set up the  Config Recorder
+# set up the  Config Recorder - test
 # -----------------------------------------------------------
 
 resource "aws_config_configuration_recorder" "config" {
-  name     = "${var.config_name}"
+  name     = var.config_name
   role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/awl-config"
 
   recording_group {
@@ -13,23 +13,23 @@ resource "aws_config_configuration_recorder" "config" {
 }
 
 resource "aws_config_delivery_channel" "config" {
-  name           = "${var.config_name}"
-  s3_bucket_name = "${var.bucket_name}"
-  s3_key_prefix  = "${var.bucket_key_prefix}"
-  sns_topic_arn  = "${var.sns_topic_arn}"
+  name           = var.config_name
+  s3_bucket_name = var.bucket_name
+  s3_key_prefix  = var.bucket_key_prefix
+  sns_topic_arn  = var.sns_topic_arn
 
   snapshot_delivery_properties {
     delivery_frequency = "Three_Hours"
   }
 
-  depends_on = ["aws_config_configuration_recorder.config"]
+  depends_on = [aws_config_configuration_recorder.config]
 }
 
 resource "aws_config_configuration_recorder_status" "config" {
   name       = "awl-config"
   is_enabled = true
 
-  depends_on = ["aws_config_delivery_channel.config"]
+  depends_on = [aws_config_delivery_channel.config]
 }
 
 # -----------------------------------------------------------
@@ -44,7 +44,7 @@ resource "aws_config_config_rule" "instances_in_vpc" {
     source_identifier = "INSTANCES_IN_VPC"
   }
 
-  depends_on = ["aws_config_configuration_recorder.config"]
+  depends_on = [aws_config_configuration_recorder.config]
 }
 
 resource "aws_config_config_rule" "ec2_volume_inuse_check" {
@@ -55,7 +55,7 @@ resource "aws_config_config_rule" "ec2_volume_inuse_check" {
     source_identifier = "EC2_VOLUME_INUSE_CHECK"
   }
 
-  depends_on = ["aws_config_configuration_recorder.config"]
+  depends_on = [aws_config_configuration_recorder.config]
 }
 
 resource "aws_config_config_rule" "eip_attached" {
@@ -66,7 +66,7 @@ resource "aws_config_config_rule" "eip_attached" {
     source_identifier = "EIP_ATTACHED"
   }
 
-  depends_on = ["aws_config_configuration_recorder.config"]
+  depends_on = [aws_config_configuration_recorder.config]
 }
 
 resource "aws_config_config_rule" "encrypted_volumes" {
@@ -77,7 +77,7 @@ resource "aws_config_config_rule" "encrypted_volumes" {
     source_identifier = "ENCRYPTED_VOLUMES"
   }
 
-  depends_on = ["aws_config_configuration_recorder.config"]
+  depends_on = [aws_config_configuration_recorder.config]
 }
 
 resource "aws_config_config_rule" "incoming_ssh_disabled" {
@@ -88,7 +88,7 @@ resource "aws_config_config_rule" "incoming_ssh_disabled" {
     source_identifier = "INCOMING_SSH_DISABLED"
   }
 
-  depends_on = ["aws_config_configuration_recorder.config"]
+  depends_on = [aws_config_configuration_recorder.config]
 }
 
 // see https://docs.aws.amazon.com/config/latest/developerguide/cloudtrail-enabled.html
@@ -106,7 +106,8 @@ resource "aws_config_config_rule" "cloud_trail_enabled" {
 }
 EOF
 
-  depends_on = ["aws_config_configuration_recorder.config"]
+
+  depends_on = [aws_config_configuration_recorder.config]
 }
 
 resource "aws_config_config_rule" "cloudwatch_alarm_action_check" {
@@ -125,7 +126,8 @@ resource "aws_config_config_rule" "cloudwatch_alarm_action_check" {
 }
 EOF
 
-  depends_on = ["aws_config_configuration_recorder.config"]
+
+  depends_on = [aws_config_configuration_recorder.config]
 }
 
 resource "aws_config_config_rule" "iam_group_has_users_check" {
@@ -136,7 +138,7 @@ resource "aws_config_config_rule" "iam_group_has_users_check" {
     source_identifier = "IAM_GROUP_HAS_USERS_CHECK"
   }
 
-  depends_on = ["aws_config_configuration_recorder.config"]
+  depends_on = [aws_config_configuration_recorder.config]
 }
 
 //see https://docs.aws.amazon.com/config/latest/developerguide/iam-password-policy.html
@@ -160,7 +162,8 @@ resource "aws_config_config_rule" "iam_password_policy" {
 }
 EOF
 
-  depends_on = ["aws_config_configuration_recorder.config"]
+
+  depends_on = [aws_config_configuration_recorder.config]
 }
 
 resource "aws_config_config_rule" "iam_user_group_membership_check" {
@@ -171,7 +174,7 @@ resource "aws_config_config_rule" "iam_user_group_membership_check" {
     source_identifier = "IAM_USER_GROUP_MEMBERSHIP_CHECK"
   }
 
-  depends_on = ["aws_config_configuration_recorder.config"]
+  depends_on = [aws_config_configuration_recorder.config]
 }
 
 resource "aws_config_config_rule" "iam_user_no_policies_check" {
@@ -182,7 +185,7 @@ resource "aws_config_config_rule" "iam_user_no_policies_check" {
     source_identifier = "IAM_USER_NO_POLICIES_CHECK"
   }
 
-  depends_on = ["aws_config_configuration_recorder.config"]
+  depends_on = [aws_config_configuration_recorder.config]
 }
 
 resource "aws_config_config_rule" "root_account_mfa_enabled" {
@@ -193,7 +196,7 @@ resource "aws_config_config_rule" "root_account_mfa_enabled" {
     source_identifier = "ROOT_ACCOUNT_MFA_ENABLED"
   }
 
-  depends_on = ["aws_config_configuration_recorder.config"]
+  depends_on = [aws_config_configuration_recorder.config]
 }
 
 resource "aws_config_config_rule" "s3_bucket_public_read_prohibited" {
@@ -204,7 +207,7 @@ resource "aws_config_config_rule" "s3_bucket_public_read_prohibited" {
     source_identifier = "S3_BUCKET_PUBLIC_READ_PROHIBITED"
   }
 
-  depends_on = ["aws_config_configuration_recorder.config"]
+  depends_on = [aws_config_configuration_recorder.config]
 }
 
 resource "aws_config_config_rule" "s3_bucket_public_write_prohibited" {
@@ -215,7 +218,7 @@ resource "aws_config_config_rule" "s3_bucket_public_write_prohibited" {
     source_identifier = "S3_BUCKET_PUBLIC_WRITE_PROHIBITED"
   }
 
-  depends_on = ["aws_config_configuration_recorder.config"]
+  depends_on = [aws_config_configuration_recorder.config]
 }
 
 resource "aws_config_config_rule" "s3_bucket_ssl_requests_only" {
@@ -226,7 +229,7 @@ resource "aws_config_config_rule" "s3_bucket_ssl_requests_only" {
     source_identifier = "S3_BUCKET_SSL_REQUESTS_ONLY"
   }
 
-  depends_on = ["aws_config_configuration_recorder.config"]
+  depends_on = [aws_config_configuration_recorder.config]
 }
 
 resource "aws_config_config_rule" "s3_bucket_server_side_encryption_enabled" {
@@ -237,7 +240,7 @@ resource "aws_config_config_rule" "s3_bucket_server_side_encryption_enabled" {
     source_identifier = "S3_BUCKET_SERVER_SIDE_ENCRYPTION_ENABLED"
   }
 
-  depends_on = ["aws_config_configuration_recorder.config"]
+  depends_on = [aws_config_configuration_recorder.config]
 }
 
 resource "aws_config_config_rule" "s3_bucket_versioning_enabled" {
@@ -248,7 +251,7 @@ resource "aws_config_config_rule" "s3_bucket_versioning_enabled" {
     source_identifier = "S3_BUCKET_VERSIONING_ENABLED"
   }
 
-  depends_on = ["aws_config_configuration_recorder.config"]
+  depends_on = [aws_config_configuration_recorder.config]
 }
 
 resource "aws_config_config_rule" "ebs_optimized_instance" {
@@ -259,5 +262,6 @@ resource "aws_config_config_rule" "ebs_optimized_instance" {
     source_identifier = "EBS_OPTIMIZED_INSTANCE"
   }
 
-  depends_on = ["aws_config_configuration_recorder.config"]
+  depends_on = [aws_config_configuration_recorder.config]
 }
+

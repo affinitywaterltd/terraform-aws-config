@@ -1,4 +1,5 @@
-data "aws_caller_identity" "current" {}
+data "aws_caller_identity" "current" {
+}
 
 variable "bucket_prefix" {
   default = "awl-config"
@@ -27,3 +28,4 @@ variable "tags" {
     "client"  = "Internal"
   }
 }
+
