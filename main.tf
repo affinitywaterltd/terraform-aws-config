@@ -146,7 +146,6 @@ resource "aws_config_config_rule" "cloud_trail_enabled" {
 }
 EOF
 
-
   depends_on = [aws_config_configuration_recorder.config]
 }
 /*
@@ -365,7 +364,7 @@ resource "aws_config_config_rule" "ec2_base_required_tags" {
   "tag1Key" : "Terraform",
   "tag1Value" : "True",
   "tag2Key" : "BusinessOwner",
-  "tag3Key" : "ServiceOwner,"
+  "tag3Key" : "ServiceOwner",
   "tag4Key" : "Environment",
   "tag5Key" : "BusinessUnit",
   "tag6Key" : "ssmMaintenanceWindow"
