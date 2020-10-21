@@ -320,7 +320,7 @@ resource "aws_config_config_rule" "ec2_required_tags" {
   name = "ec2_required_tags"
 
   scope {
-    compliance_resource_types = AWS::EC2::Instance
+    compliance_resource_types = ["AWS::EC2::Instance"]
   }
 
   source {
