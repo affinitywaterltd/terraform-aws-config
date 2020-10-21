@@ -227,7 +227,7 @@ resource "aws_config_config_rule" "iam_user_no_policies_check" {
   scope {
     compliance_resource_types = ["AWS::IAM::User"]
   }
-  
+
   source {
     owner             = "AWS"
     source_identifier = "IAM_USER_NO_POLICIES_CHECK"
@@ -324,8 +324,32 @@ resource "aws_config_config_rule" "ebs_optimized_instance" {
   depends_on = [aws_config_configuration_recorder.config]
 }
 
-resource "aws_config_config_rule" "ec2_required_tags" {
-  name = "ec2_required_tags"
+resource "aws_config_config_rule" "ec2_billing_required_tags" {
+  name = "ec2_billing_required_tags"
+
+  scope {
+    compliance_resource_types = ["AWS::EC2::Instance"]
+  }
+
+  source {
+    owner             = "AWS"
+    source_identifier = "REQUIRED_TAGS"
+  }
+
+  input_parameters = <<EOF
+{
+  "tag1Key" : "CostCentre"
+  "tag2Key" : "Quadrant"
+  "tag3Key" : "Organisation"
+  "tag4Key" : "CreatedDate"
+}
+EOF
+
+  depends_on = [aws_config_configuration_recorder.config]
+}
+
+resource "aws_config_config_rule" "ec2_base_required_tags" {
+  name = "ec2_base_required_tags"
 
   scope {
     compliance_resource_types = ["AWS::EC2::Instance"]
@@ -340,7 +364,11 @@ resource "aws_config_config_rule" "ec2_required_tags" {
 {
   "tag1Key" : "Terraform",
   "tag1Value" : "True",
-  "tag2Key" : "CostCentre"
+  "tag2Key" : "BusinessOwner"
+  "tag3Key" : "ServiceOwner"
+  "tag4Key" : "Environment"
+  "tag5Key" : "BusinessUnit"
+  "tag6Key" : "ssmMaintenanceWindow"
 }
 EOF
 
