@@ -8,7 +8,7 @@ resource "aws_config_configuration_recorder" "config" {
 
   recording_group {
     all_supported                 = true
-    include_global_resource_types = false
+    include_global_resource_types = true
   }
 }
 
@@ -36,6 +36,7 @@ resource "aws_config_configuration_recorder_status" "config" {
 # set up the Config Recorder rules
 # see https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html
 # -----------------------------------------------------------
+/*
 resource "aws_config_config_rule" "instances_in_vpc" {
   name = "instances_in_vpc"
 
@@ -45,7 +46,7 @@ resource "aws_config_config_rule" "instances_in_vpc" {
   }
 
   depends_on = [aws_config_configuration_recorder.config]
-}
+}*/
 
 resource "aws_config_config_rule" "ec2_volume_inuse_check" {
   name = "ec2_volume_inuse_check"
@@ -54,6 +55,23 @@ resource "aws_config_config_rule" "ec2_volume_inuse_check" {
     owner             = "AWS"
     source_identifier = "EC2_VOLUME_INUSE_CHECK"
   }
+
+  depends_on = [aws_config_configuration_recorder.config]
+}
+
+resource "aws_config_config_rule" "ec2_stopped_instance" {
+  name = "ec2_stopped_instance"
+
+  source {
+    owner             = "AWS"
+    source_identifier = "EC2_STOPPED_INSTANCE"
+  }
+
+  input_parameters = <<EOF
+  {
+    "AllowedDays": "30"
+  }
+  EOF
 
   depends_on = [aws_config_configuration_recorder.config]
 }
@@ -69,6 +87,17 @@ resource "aws_config_config_rule" "eip_attached" {
   depends_on = [aws_config_configuration_recorder.config]
 }
 
+resource "aws_config_config_rule" "ec2_security_group_attached_to_eni" {
+  name = "ec2_security_group_attached_to_eni"
+
+  source {
+    owner             = "AWS"
+    source_identifier = "EC2_SECURITY_GROUP_ATTACHED_TO_ENI"
+  }
+
+  depends_on = [aws_config_configuration_recorder.config]
+}
+/*
 resource "aws_config_config_rule" "encrypted_volumes" {
   name = "encrypted_volumes"
 
@@ -78,7 +107,7 @@ resource "aws_config_config_rule" "encrypted_volumes" {
   }
 
   depends_on = [aws_config_configuration_recorder.config]
-}
+}*/
 
 resource "aws_config_config_rule" "incoming_ssh_disabled" {
   name = "incoming_ssh_disabled"
@@ -86,6 +115,17 @@ resource "aws_config_config_rule" "incoming_ssh_disabled" {
   source {
     owner             = "AWS"
     source_identifier = "INCOMING_SSH_DISABLED"
+  }
+
+  depends_on = [aws_config_configuration_recorder.config]
+}
+
+resource "aws_config_config_rule" "vpc_flow_logs_enabled" {
+  name = "vpc_flow_logs_enabled"
+
+  source {
+    owner             = "AWS"
+    source_identifier = "VPC_FLOW_LOGS_ENABLED"
   }
 
   depends_on = [aws_config_configuration_recorder.config]
@@ -102,14 +142,14 @@ resource "aws_config_config_rule" "cloud_trail_enabled" {
 
   input_parameters = <<EOF
 {
-  "s3BucketName": "example-logs20180305121401385000000001"
+  "s3BucketName": "cloudtrail-786188916060"
 }
 EOF
 
 
   depends_on = [aws_config_configuration_recorder.config]
 }
-
+/*
 resource "aws_config_config_rule" "cloudwatch_alarm_action_check" {
   name = "cloudwatch_alarm_action_check"
 
@@ -128,8 +168,8 @@ EOF
 
 
   depends_on = [aws_config_configuration_recorder.config]
-}
-
+}*/
+/*
 resource "aws_config_config_rule" "iam_group_has_users_check" {
   name = "iam_group_has_users_check"
 
@@ -139,7 +179,7 @@ resource "aws_config_config_rule" "iam_group_has_users_check" {
   }
 
   depends_on = [aws_config_configuration_recorder.config]
-}
+}*/
 
 //see https://docs.aws.amazon.com/config/latest/developerguide/iam-password-policy.html
 resource "aws_config_config_rule" "iam_password_policy" {
@@ -221,6 +261,17 @@ resource "aws_config_config_rule" "s3_bucket_public_write_prohibited" {
   depends_on = [aws_config_configuration_recorder.config]
 }
 
+resource "aws_config_config_rule" "s3_bucket_logging_enabled" {
+  name = "s3_bucket_logging_enabled"
+
+  source {
+    owner             = "AWS"
+    source_identifier = "S3_BUCKET_LOGGING_ENABLED"
+  }
+
+  depends_on = [aws_config_configuration_recorder.config]
+}
+/*
 resource "aws_config_config_rule" "s3_bucket_ssl_requests_only" {
   name = "s3_bucket_ssl_requests_only"
 
@@ -230,7 +281,7 @@ resource "aws_config_config_rule" "s3_bucket_ssl_requests_only" {
   }
 
   depends_on = [aws_config_configuration_recorder.config]
-}
+}*/
 
 resource "aws_config_config_rule" "s3_bucket_server_side_encryption_enabled" {
   name = "s3_bucket_server_side_encryption_enabled"
@@ -265,3 +316,21 @@ resource "aws_config_config_rule" "ebs_optimized_instance" {
   depends_on = [aws_config_configuration_recorder.config]
 }
 
+resource "aws_config_config_rule" "required_tags" {
+  name = "required_tags"
+
+  source {
+    owner             = "AWS"
+    source_identifier = "REQUIRED_TAGS"
+  }
+
+  input_parameters = <<EOF
+{
+  "tag1Key" : "Terraform",
+  "tag1Value" : "True",
+  "tag2Key" : "CostCentre"
+}
+EOF
+
+  depends_on = [aws_config_configuration_recorder.config]
+}
