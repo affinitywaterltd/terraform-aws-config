@@ -316,8 +316,12 @@ resource "aws_config_config_rule" "ebs_optimized_instance" {
   depends_on = [aws_config_configuration_recorder.config]
 }
 
-resource "aws_config_config_rule" "required_tags" {
-  name = "required_tags"
+resource "aws_config_config_rule" "ec2_required_tags" {
+  name = "ec2_required_tags"
+
+  scope {
+    compliance_resource_types = "AWS::EC2::Instance"
+  }
 
   source {
     owner             = "AWS"
