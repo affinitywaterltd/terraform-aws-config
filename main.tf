@@ -340,7 +340,7 @@ resource "aws_config_config_rule" "ec2_billing_required_tags" {
   "tag1Key" : "CostCentre",
   "tag2Key" : "Quadrant",
   "tag3Key" : "Organisation",
-  "tag4Key" : "CreatedDate"
+  "tag4Key" : "CreationDate"
 }
 EOF
 
