@@ -208,6 +208,10 @@ EOF
 
 resource "aws_config_config_rule" "iam_user_group_membership_check" {
   name = "iam_user_group_membership_check"
+  
+  scope {
+    compliance_resource_types = ["AWS::IAM::Group"]
+  }
 
   source {
     owner             = "AWS"
@@ -219,7 +223,11 @@ resource "aws_config_config_rule" "iam_user_group_membership_check" {
 
 resource "aws_config_config_rule" "iam_user_no_policies_check" {
   name = "iam_user_no_policies_check"
-
+  
+  scope {
+    compliance_resource_types = ["AWS::IAM::User"]
+  }
+  
   source {
     owner             = "AWS"
     source_identifier = "IAM_USER_NO_POLICIES_CHECK"
