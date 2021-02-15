@@ -43,7 +43,6 @@ resource "aws_config_configuration_aggregator" "config" {
 }
 
 resource "aws_config_aggregate_authorization" "config" {
-  count      = var.aggregator_account_id == data.aws_caller_identity.current.account_id ? 0 : 1
   account_id = var.aggregator_account_id
   region     = data.aws_region.current.name
 }
