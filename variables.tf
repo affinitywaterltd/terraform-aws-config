@@ -27,12 +27,12 @@ variable "aggregator_account_id" {
   default = ""
 }
 
-variable "account_aggregation_source_account_ids"{
+variable "account_aggregation_source_account_ids" {
   type = list
   default = []
 }
 
-variable "account_aggregation_source_regions"{
+variable "account_aggregation_source_regions" {
   type = list
   default = []
 }

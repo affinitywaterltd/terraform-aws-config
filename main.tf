@@ -38,7 +38,7 @@ resource "aws_config_configuration_aggregator" "config" {
 
   account_aggregation_source {
     account_ids = var.account_aggregation_source_account_ids
-    regions     = var.account_aggregation_source_regions == [] ? [data.aws_region.current.name] : var.account_aggregation_source_account_ids
+    regions     = length(var.account_aggregation_source_regions) > 0 ? var.account_aggregation_source_regions : [data.aws_region.current.name]
   }
 }
 
