@@ -329,7 +329,6 @@ resource "aws_config_config_rule" "ec2_base_required_tags" {
   input_parameters = <<EOF
 {
   "tag1Key" : "Terraform",
-  "tag1Value" : "True",
   "tag2Key" : "BusinessOwner",
   "tag3Key" : "ServiceOwner",
   "tag4Key" : "Environment",
