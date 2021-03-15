@@ -339,3 +339,18 @@ EOF
 
   depends_on = [aws_config_configuration_recorder.config]
 }
+
+resource "aws_config_config_rule" "ec2_isntance_managed_by_systems_manager" {
+  name = "ec2_isntance_managed_by_systems_manager"
+
+  scope {
+    compliance_resource_types = ["AWS::EC2::Instance", "AWS::SSM::ManagedInstanceInventory"]
+  }
+
+  source {
+    owner             = "AWS"
+    source_identifier = "EC2_INSTANCE_MANAGED_BY_SSM"
+  }
+
+  depends_on = [aws_config_configuration_recorder.config]
+}
