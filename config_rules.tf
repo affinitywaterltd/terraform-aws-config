@@ -341,7 +341,7 @@ EOF
 }
 
 resource "aws_config_config_rule" "ec2_isntance_managed_by_systems_manager" {
-  name = "ec2_isntance_managed_by_systems_manager"
+  name = "ec2_instance_managed_by_systems_manager"
 
   scope {
     compliance_resource_types = ["AWS::EC2::Instance", "AWS::SSM::ManagedInstanceInventory"]
